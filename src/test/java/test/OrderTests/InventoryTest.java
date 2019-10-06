@@ -1,7 +1,7 @@
 package test.OrderTests;
 
 import endpoint.StoreEndpoint;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 
 public class InventoryTest {

@@ -2,7 +2,9 @@ package test.OrderTests;
 
 import endpoint.StoreEndpoint;
 import model.Order;
-import org.testng.annotations.Test;
+import org.junit.Test;
+
+import static org.hamcrest.Matchers.*;
 
 public class CreateOrder {
     private static final StoreEndpoint STORE_ENDPOINT = new StoreEndpoint();
@@ -27,11 +29,15 @@ public class CreateOrder {
                 .placeOrder(order)
                 .then()
                 .log().all()
+                .body(not(isEmptyString()))
+                .body("id", equalTo(orderId))
+                .body("status", is("available"))
                 .statusCode(200);
 
         STORE_ENDPOINT
                 .getPurchaseOrderById(orderId)
                 .then()
+                .log().all()
                 .statusCode(200);
     }
 }

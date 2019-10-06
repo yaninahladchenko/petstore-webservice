@@ -2,14 +2,14 @@ package test.OrderTests;
 
 import endpoint.StoreEndpoint;
 import model.Order;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 public class DeleteOrder {
     private static final StoreEndpoint STORE_ENDPOINT = new StoreEndpoint();
     private int orderId = 111;
 
-    @BeforeMethod
+    @Before
     public void createOrder(){
         Order order = new Order();
         order.setId(orderId);

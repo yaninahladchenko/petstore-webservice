@@ -1,8 +1,7 @@
 package endpoint;
 
-import model.Pet;
 import io.restassured.response.Response;
-
+import model.Pet;
 
 public class PetEndpoint extends BaseEndpoint {
 
