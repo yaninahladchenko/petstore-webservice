@@ -2,9 +2,11 @@ package endpoint;
 
 import io.restassured.response.Response;
 import model.Pet;
+import net.thucydides.core.annotations.Step;
 
 public class PetEndpoint extends BaseEndpoint {
 
+    @Step
     public Response getPetById(long id) {
         return given()
                 .when()
@@ -12,6 +14,7 @@ public class PetEndpoint extends BaseEndpoint {
                 .then().extract().response();
     }
 
+    @Step
     public Response getPetByStatus(String status) {
         return given()
                 .queryParam("status", status)  //when to use? difference between query and path param?
@@ -21,6 +24,7 @@ public class PetEndpoint extends BaseEndpoint {
                 .extract().response();
     }
 
+    @Step
     public Response createPet(Pet pet) {
         return given()
                 .body(pet)
