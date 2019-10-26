@@ -4,17 +4,21 @@ import endpoint.PetEndpoint;
 import model.Pet;
 import com.google.common.collect.ImmutableList;
 import model.Category;
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Steps;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.hamcrest.Matchers.*;
 
-public class PetTests {
-
-    public static final PetEndpoint PET_STORE_PET_ENDPOINT = new PetEndpoint();
+@RunWith(SerenityRunner.class)
+public class PetTest {
+    @Steps
+    public PetEndpoint petEndpoint;
 
     @Test
     public void verifyStatusCode() {
-        PET_STORE_PET_ENDPOINT
+        petEndpoint
                 .getPetByStatus("available")
                 .then()
                 .statusCode(200);
@@ -22,7 +26,7 @@ public class PetTests {
 
     @Test
     public void verifyBody() {
-        PET_STORE_PET_ENDPOINT
+        petEndpoint
                 .getPetByStatus("available")
                 .then()
                 .assertThat()
@@ -31,7 +35,7 @@ public class PetTests {
 
     @Test
     public void verifyNotExistingPetReturn404() {
-        PET_STORE_PET_ENDPOINT
+        petEndpoint
                 .getPetById(113214)
                 .then()
                 .statusCode(404);
@@ -49,7 +53,7 @@ public class PetTests {
         cat.setPhotoUrls(ImmutableList.of("someUrl"));
         cat.setStatus("available");
 
-        PET_STORE_PET_ENDPOINT
+        petEndpoint
                 .createPet(cat)
                 .then()
                 .statusCode(200);

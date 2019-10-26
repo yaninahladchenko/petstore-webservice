@@ -2,7 +2,6 @@ package model;
 
 public class Order extends BaseEntity {
 
-    private long id;
     private long petId;
     private int quantity;
     private String shipDate;

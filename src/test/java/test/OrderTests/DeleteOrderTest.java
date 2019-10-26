@@ -2,11 +2,16 @@ package test.OrderTests;
 
 import endpoint.StoreEndpoint;
 import model.Order;
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Steps;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GetOrder {
-    private static final StoreEndpoint STORE_ENDPOINT = new StoreEndpoint();
+@RunWith(SerenityRunner.class)
+public class DeleteOrderTest {
+    @Steps
+    private StoreEndpoint storeEndpoint;
     private int orderId = 111;
 
     @Before
@@ -20,13 +25,13 @@ public class GetOrder {
         order.setStatus("available");
         order.setComplete(true);
 
-        STORE_ENDPOINT
+        storeEndpoint
                 .placeOrder(order)
                 .then()
                 .log().all()
                 .statusCode(200);
 
-        STORE_ENDPOINT
+        storeEndpoint
                 .getPurchaseOrderById(orderId)
                 .then()
                 .statusCode(200);
@@ -37,27 +42,23 @@ public class GetOrder {
      * - Create order
      *
      * Scenario:
-     * - Verify order is created
-     * - Find created order by ID
+     * - Delete order
+     * - Get deleted order
      */
     @Test
-    public void verifyOrderCanBeFoundById() {
+    public void verifyOrderCanBeDeletedById(){
 
-        STORE_ENDPOINT
-                .getPurchaseOrderById(orderId)
+        storeEndpoint
+                .deletePurchaseOrderById(orderId)
                 .then()
-                .log().all()
                 .statusCode(200);
-    }
 
-    @Test
-    public void verifyOrderCannotBeFoundByInvalidId(){
-        STORE_ENDPOINT
-                .getPurchaseOrderById(8888)
+        storeEndpoint
+                .getPurchaseOrderById(123)
                 .then()
                 .log().all()
                 .statusCode(404);
-    }
 
+    }
 
 }

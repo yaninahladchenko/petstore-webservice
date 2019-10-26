@@ -2,12 +2,17 @@ package test.OrderTests;
 
 import endpoint.StoreEndpoint;
 import model.Order;
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Steps;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.hamcrest.Matchers.*;
 
-public class CreateOrder {
-    private static final StoreEndpoint STORE_ENDPOINT = new StoreEndpoint();
+@RunWith(SerenityRunner.class)
+public class CreateOrderTest {
+    @Steps
+    private StoreEndpoint storeEndpoint;
     private int orderId = 111;
 
     /**
@@ -25,7 +30,7 @@ public class CreateOrder {
         order.setStatus("available");
         order.setComplete(true);
 
-        STORE_ENDPOINT
+        storeEndpoint
                 .placeOrder(order)
                 .then()
                 .log().all()
@@ -34,7 +39,7 @@ public class CreateOrder {
                 .body("status", is("available"))
                 .statusCode(200);
 
-        STORE_ENDPOINT
+        storeEndpoint
                 .getPurchaseOrderById(orderId)
                 .then()
                 .log().all()
