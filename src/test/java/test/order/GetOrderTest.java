@@ -1,26 +1,21 @@
-package test.OrderTests;
+package test.order;
 
 import endpoint.StoreEndpoint;
 import model.Order;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Steps;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.hamcrest.Matchers.*;
-
 @RunWith(SerenityRunner.class)
-public class CreateOrderTest {
+public class GetOrderTest {
     @Steps
     private StoreEndpoint storeEndpoint;
     private int orderId = 111;
 
-    /**
-     * - Create order
-     * - Get created order by ID
-     */
-    @Test
-    public void verifyOrderCanBeCreated() {
+    @Before
+    public void createOrder(){
         Order order = new Order();
         order.setId(orderId);
         order.setPetId(555);
@@ -34,10 +29,24 @@ public class CreateOrderTest {
                 .placeOrder(order)
                 .then()
                 .log().all()
-                .body(not(isEmptyString()))
-                .body("id", equalTo(orderId))
-                .body("status", is("available"))
                 .statusCode(200);
+
+        storeEndpoint
+                .getPurchaseOrderById(orderId)
+                .then()
+                .statusCode(200);
+    }
+
+    /**
+     * Precondition:
+     * - Create order
+     *
+     * Scenario:
+     * - Verify order is created
+     * - Find created order by ID
+     */
+    @Test
+    public void verifyOrderCanBeFoundById() {
 
         storeEndpoint
                 .getPurchaseOrderById(orderId)
@@ -45,5 +54,15 @@ public class CreateOrderTest {
                 .log().all()
                 .statusCode(200);
     }
-}
 
+    @Test
+    public void verifyOrderCannotBeFoundByInvalidId(){
+        storeEndpoint
+                .getPurchaseOrderById(8888)
+                .then()
+                .log().all()
+                .statusCode(404);
+    }
+
+
+}

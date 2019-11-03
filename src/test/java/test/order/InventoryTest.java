@@ -1,4 +1,4 @@
-package test.OrderTests;
+package test.order;
 
 import endpoint.StoreEndpoint;
 import net.serenitybdd.junit.runners.SerenityRunner;

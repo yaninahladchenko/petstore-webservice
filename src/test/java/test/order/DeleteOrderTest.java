@@ -1,4 +1,4 @@
-package test.OrderTests;
+package test.order;
 
 import endpoint.StoreEndpoint;
 import model.Order;
@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(SerenityRunner.class)
-public class GetOrderTest {
+public class DeleteOrderTest {
     @Steps
     private StoreEndpoint storeEndpoint;
     private int orderId = 111;
@@ -42,27 +42,23 @@ public class GetOrderTest {
      * - Create order
      *
      * Scenario:
-     * - Verify order is created
-     * - Find created order by ID
+     * - Delete order
+     * - Get deleted order
      */
     @Test
-    public void verifyOrderCanBeFoundById() {
+    public void verifyOrderCanBeDeletedById(){
 
         storeEndpoint
-                .getPurchaseOrderById(orderId)
+                .deletePurchaseOrderById(orderId)
                 .then()
-                .log().all()
                 .statusCode(200);
-    }
 
-    @Test
-    public void verifyOrderCannotBeFoundByInvalidId(){
         storeEndpoint
-                .getPurchaseOrderById(8888)
+                .getPurchaseOrderById(123)
                 .then()
                 .log().all()
                 .statusCode(404);
-    }
 
+    }
 
 }

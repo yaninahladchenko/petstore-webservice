@@ -1,4 +1,4 @@
-package test.PetTests;
+package test.pet;
 
 import endpoint.PetEndpoint;
 import model.Pet;

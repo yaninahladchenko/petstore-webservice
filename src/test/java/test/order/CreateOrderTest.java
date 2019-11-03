@@ -1,21 +1,26 @@
-package test.OrderTests;
+package test.order;
 
 import endpoint.StoreEndpoint;
 import model.Order;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Steps;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.hamcrest.Matchers.*;
+
 @RunWith(SerenityRunner.class)
-public class DeleteOrderTest {
+public class CreateOrderTest {
     @Steps
     private StoreEndpoint storeEndpoint;
     private int orderId = 111;
 
-    @Before
-    public void createOrder(){
+    /**
+     * - Create order
+     * - Get created order by ID
+     */
+    @Test
+    public void verifyOrderCanBeCreated() {
         Order order = new Order();
         order.setId(orderId);
         order.setPetId(555);
@@ -29,36 +34,16 @@ public class DeleteOrderTest {
                 .placeOrder(order)
                 .then()
                 .log().all()
+                .body(not(isEmptyString()))
+                .body("id", equalTo(orderId))
+                .body("status", is("available"))
                 .statusCode(200);
 
         storeEndpoint
                 .getPurchaseOrderById(orderId)
                 .then()
-                .statusCode(200);
-    }
-
-    /**
-     * Precondition:
-     * - Create order
-     *
-     * Scenario:
-     * - Delete order
-     * - Get deleted order
-     */
-    @Test
-    public void verifyOrderCanBeDeletedById(){
-
-        storeEndpoint
-                .deletePurchaseOrderById(orderId)
-                .then()
-                .statusCode(200);
-
-        storeEndpoint
-                .getPurchaseOrderById(123)
-                .then()
                 .log().all()
-                .statusCode(404);
-
+                .statusCode(200);
     }
-
 }
+
