@@ -15,6 +15,14 @@ public class PetEndpoint extends BaseEndpoint {
     }
 
     @Step
+    public Response deletePetById(long id) {
+        return given()
+                .when()
+                .delete(Config.PET_BY_ID, id)
+                .then().extract().response();
+    }
+
+    @Step
     public Response getPetByStatus(String status) {
         return given()
                 .queryParam("status", status)  //when to use? difference between query and path param?
